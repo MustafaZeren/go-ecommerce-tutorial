@@ -20,7 +20,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Giriş için kullanacağın mail
       PGADMIN_DEFAULT_PASSWORD: password       # Giriş için kullanacağın şifre
     ports:
-      - "8080:80"                             # Tarayıcıdan localhost:8080 ile gireceksin
+      - "8085:80"                             # Tarayıcıdan localhost:8080 ile gireceksin
     depends_on:
       - postgres
   localstack:
