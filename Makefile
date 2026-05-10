@@ -21,8 +21,12 @@ run:
 dev:
 	go run ./cmd/api
 
-lint:
+lint: format
 	golangci-lint run ./...
+
+format:
+	@gofmt -s -w .
+	@goimports -w .
 
 migrate-up:
 	docker run --rm -v $(shell pwd)/db/migrations:/migrations --network host migrate/migrate -path=/migrations/ -database "$(DB_URL)" up
@@ -47,3 +51,4 @@ docker-all-up: docker-tools-up docker-up
 
 docker-all-down: docker-down docker-tools-down
 	@echo "All systems are stopped."
+
