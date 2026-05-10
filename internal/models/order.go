@@ -1,3 +1,4 @@
+// Package models veritabanı şemalarını ve uygulama modellerini içerir.
 package models
 
 import (
@@ -6,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Order müşterilerin verdiği siparişlerin ana bilgilerini tutar.
 type Order struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	UserID      uint           `json:"user_id" gorm:"not null"`
@@ -20,16 +22,23 @@ type Order struct {
 	OrderItems []OrderItem `json:"order_items"`
 }
 
+// OrderStatus siparişin mevcut durumunu belirten özel bir tiptir.
 type OrderStatus string
 
 const (
-	OrderStatusPending   OrderStatus = "pending"
+	// OrderStatusPending siparişin onay beklediğini ifade eder.
+	OrderStatusPending OrderStatus = "pending"
+	// OrderStatusConfirmed siparişin ödemesinin alındığını ve onaylandığını ifade eder.
 	OrderStatusConfirmed OrderStatus = "confirmed"
-	OrderStatusShipped   OrderStatus = "shipped"
+	// OrderStatusShipped siparişin kargoya verildiğini ifade eder.
+	OrderStatusShipped OrderStatus = "shipped"
+	// OrderStatusDelivered siparişin müşteriye teslim edildiğini ifade eder.
 	OrderStatusDelivered OrderStatus = "delivered"
+	// OrderStatusCancelled siparişin iptal edildiğini ifade eder.
 	OrderStatusCancelled OrderStatus = "cancelled"
 )
 
+// OrderItem bir sipariş içerisindeki her bir ürünün miktar ve fiyat bilgisini tutar.
 type OrderItem struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	OrderID   uint           `json:"order_id" gorm:"not null"`
@@ -44,6 +53,7 @@ type OrderItem struct {
 	Product Product `json:"product"`
 }
 
+// Cart kullanıcının aktif sepet bilgisini temsil eder.
 type Cart struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	UserID    uint           `json:"user_id" gorm:"uniqueIndex;not null"`
@@ -55,6 +65,7 @@ type Cart struct {
 	CartItems []CartItem `json:"cart_items"`
 }
 
+// CartItem sepete eklenen her bir ürünü ve miktarını temsil eder.
 type CartItem struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	CartID    uint           `json:"cart_id" gorm:"not null"`

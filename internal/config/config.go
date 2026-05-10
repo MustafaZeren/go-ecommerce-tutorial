@@ -1,3 +1,4 @@
+// Package config uygulama yapılandırma ayarlarının yüklenmesini ve yönetimini sağlar.
 package config
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Config tüm uygulamanın merkezi yapılandırma struct'ıdır.
 type Config struct {
 	Server   ServerConfig
 	Database DatabaseConfig
@@ -16,11 +18,13 @@ type Config struct {
 	Upload   UploadConfig
 }
 
+// ServerConfig HTTP sunucusunun çalışma modunu ve portunu tutar.
 type ServerConfig struct {
 	Port    string
 	GinMode string
 }
 
+// DatabaseConfig PostgreSQL bağlantısı için gerekli kimlik bilgilerini tutar.
 type DatabaseConfig struct {
 	Host     string
 	Port     string
@@ -30,25 +34,29 @@ type DatabaseConfig struct {
 	SSLMode  string
 }
 
+// JWTConfig kimlik doğrulama belirteçlerinin süresini ve gizli anahtarını tutar.
 type JWTConfig struct {
 	Secret              string
 	ExpiresIn           time.Duration
 	RefreshTokenExpires time.Duration
 }
 
+// AwsConfig S3 ve diğer AWS servisleri için gerekli ayarları tutar.
 type AwsConfig struct {
 	Region          string
-	AccessKeyId     string
+	AccessKeyID     string
 	SecretAccessKey string
 	S3Bucket        string
 	S3Endpoint      string
 }
 
+// UploadConfig dosya yükleme klasörü ve boyut sınırlarını belirler.
 type UploadConfig struct {
 	Path        string
 	MaxFileSize int64
 }
 
+// LoadConfig .env dosyasını okur ve yapılandırma nesnesini oluşturur.
 func LoadConfig() (*Config, error) {
 	_ = godotenv.Load()
 	jwtExpiresIn, _ := time.ParseDuration(getEnv("JWT_EXPIRES_IN", "24h"))
@@ -75,7 +83,7 @@ func LoadConfig() (*Config, error) {
 		},
 		AWS: AwsConfig{
 			Region:          getEnv("AWS_REGION", "eu-central-1"),
-			AccessKeyId:     getEnv("AWS_ACCESS_KEY_ID", "test"),
+			AccessKeyID:     getEnv("AWS_ACCESS_KEY_ID", "test"),
 			SecretAccessKey: getEnv("AWS_SECRET_ACCESS_KEY", "test"),
 			S3Bucket:        getEnv("AWS_S3_BUCKET", "ecommerce-uploads"),
 			S3Endpoint:      getEnv("AWS_S3_ENDPOINT", "https://localhost:4566"),
@@ -87,6 +95,7 @@ func LoadConfig() (*Config, error) {
 	}, nil
 }
 
+// getEnv belirtilen anahtar için ortam değişkenini döner, yoksa varsayılan değeri döner.
 func getEnv(key, defaultVal string) string {
 	if value := os.Getenv(key); value != "" {
 		return value

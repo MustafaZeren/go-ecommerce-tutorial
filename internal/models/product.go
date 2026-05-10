@@ -1,3 +1,4 @@
+// Package models veritabanı şemalarını ve uygulama modellerini içerir.
 package models
 
 import (
@@ -6,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// Category ürünlerin gruplandırıldığı kategorileri temsil eder.
 type Category struct {
 	ID          uint           `json:"id" gorm:"primary_key"`
 	Name        string         `json:"name" gorm:"not null"`
@@ -18,6 +20,7 @@ type Category struct {
 	Products []Product `json:"-"`
 }
 
+// Product sistemde satılan her bir ürünü temsil eder.
 type Product struct {
 	ID          uint           `json:"id" gorm:"primaryKey"`
 	CategoryID  uint           `json:"category_id" gorm:"not null"`
@@ -38,6 +41,7 @@ type Product struct {
 	CartItems  []CartItem     `json:"-"`
 }
 
+// ProductImage ürünlere ait görsellerin URL bilgilerini tutar.
 type ProductImage struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	ProductID uint           `json:"product_id" gorm:"not null"`

@@ -1,3 +1,4 @@
+// Package database veritabanı bağlantılarını ve GORM yapılandırmasını yönetir.
 package database
 
 import (
@@ -9,7 +10,8 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-func New(cfg config.DatabaseConfig) (*gorm.DB, error) {
+// New veritabanı yapılandırmasını kullanarak yeni bir GORM DB bağlantısı açar.
+func New(cfg *config.DatabaseConfig) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=UTC", cfg.Host, cfg.User, cfg.Password, cfg.Name, cfg.Port, cfg.SSLMode)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),

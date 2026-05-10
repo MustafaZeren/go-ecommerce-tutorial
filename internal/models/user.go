@@ -1,3 +1,4 @@
+// Package models veritabanı şemalarını ve uygulama modellerini içerir.
 package models
 
 import (
@@ -6,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// User sistemdeki kullanıcı hesap bilgilerini temsil eder.
 type User struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	Email     string         `json:"email" gorm:"uniqueIndex;not null"`
@@ -25,13 +27,17 @@ type User struct {
 	Cart          Cart           `json:"-"`
 }
 
+// UserRole kullanıcı yetkilendirme seviyelerini belirleyen özel tiptir.
 type UserRole string
 
 const (
+	// UserRoleCustomer standart alışveriş yapan kullanıcı rolüdür.
 	UserRoleCustomer UserRole = "customer"
-	UserRoleAdmin    UserRole = "admin"
+	// UserRoleAdmin tüm yönetim yetkilerine sahip yönetici rolüdür.
+	UserRoleAdmin UserRole = "admin"
 )
 
+// RefreshToken JWT oturumlarının yenilenmesi için kullanılan belirteç bilgisini tutar.
 type RefreshToken struct {
 	ID        uint           `json:"id" gorm:"primaryKey"`
 	UserID    uint           `json:"user_id" gorm:"not null"`
