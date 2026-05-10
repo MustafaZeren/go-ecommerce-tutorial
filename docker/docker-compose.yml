@@ -13,6 +13,16 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Giriş için kullanacağın mail
+      PGADMIN_DEFAULT_PASSWORD: password       # Giriş için kullanacağın şifre
+    ports:
+      - "8080:80"                             # Tarayıcıdan localhost:8080 ile gireceksin
+    depends_on:
+      - postgres
   localstack:
     image: localstack/localstack:3.4.0
     container_name: localstack_container
