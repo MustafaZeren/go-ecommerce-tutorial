@@ -1,0 +1,16 @@
+#UserName: admin
+#Pass: Qwer.1234.Qwer.1234. (Evet iki defa Qwer.1234.)
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
