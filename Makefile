@@ -42,10 +42,8 @@ docker-tools-up:
 docker-tools-down:
 	docker compose -f docker/docker-compose.tools.yml down
 
-docker-all-up:
-	docker-tools-up docker-up
+docker-all-up: docker-tools-up docker-up
 	@echo "All systems are up and running!"
 
-docker-all-down:
-	docker-down docker-tools-down
+docker-all-down: docker-down docker-tools-down
 	@echo "All systems are stopped."
