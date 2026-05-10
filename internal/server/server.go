@@ -12,10 +12,10 @@ import (
 type Server struct {
 	config *config.Config
 	db     *gorm.DB
-	logger zerolog.Logger
+	logger *zerolog.Logger
 }
 
-func New(c *config.Config, db *gorm.DB, logger zerolog.Logger) *Server {
+func New(c *config.Config, db *gorm.DB, logger *zerolog.Logger) *Server {
 	return &Server{
 		config: c,
 		db:     db,
