@@ -62,10 +62,10 @@ func (s *Server) logout(c *gin.Context) {
 		return
 	}
 	authService := services.NewAuthService(s.db, s.config)
-	response, err := authService.RefreshToken(&req)
-	if err != nil {
+	if err := authService.Logout(req.RefreshToken); err != nil {
 		utils.InternalServerErrorResponse(c, "Logout failed", err)
 		return
 	}
-	utils.SuccessResponse(c, "User logout successfully", response)
+
+	utils.SuccessResponse(c, "Logout successful", nil)
 }

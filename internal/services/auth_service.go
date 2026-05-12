@@ -84,7 +84,7 @@ func (s *AuthService) RefreshToken(req *dto.RefreshTokenRequest) (*dto.AuthRespo
 	}
 
 	var refreshToken models.RefreshToken
-	if err := s.db.Where("token = ? and expires > ?", req.RefreshToken, time.Now()).First(&refreshToken).Error; err != nil {
+	if err := s.db.Where("token = ? and expires_at > ?", req.RefreshToken, time.Now()).First(&refreshToken).Error; err != nil {
 		return nil, errors.New("refresh token not found or expired")
 	}
 
