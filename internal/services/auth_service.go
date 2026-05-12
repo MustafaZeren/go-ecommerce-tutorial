@@ -24,7 +24,7 @@ func NewAuthService(db *gorm.DB, config *config.Config) *AuthService {
 }
 
 func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, error) {
-	//Check if user exists
+	// Check if user exists
 	var existingUser models.User
 	err := s.db.Where("email = ?", req.Email).First(&existingUser).Error
 
@@ -36,12 +36,12 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 		return nil, err
 	}
 
-	//Hash pass
+	// Hash pass
 	hashedPassword, err := utils.HashPassword(req.Password)
 	if err != nil {
 		return nil, err
 	}
-	//Create User
+	// Create User
 	user := models.User{
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
@@ -53,7 +53,7 @@ func (s *AuthService) Register(req *dto.RegisterRequest) (*dto.AuthResponse, err
 	if err := s.db.Create(&user).Error; err != nil {
 		return nil, errors.New("user creation failed")
 	}
-	//Create cart
+	// Create cart
 	cart := models.Cart{
 		UserID: user.ID,
 	}

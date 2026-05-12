@@ -29,6 +29,18 @@ func (s *Server) SetupRoutes() *gin.Engine {
 	r.Use(s.corsMiddleware())
 
 	r.GET("/health", s.healthCheck)
+
+	api := r.Group("/api/v1")
+	{
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", s.register)
+			auth.POST("/login", s.login)
+			auth.POST("/refresh", s.refreshToken)
+			auth.POST("/logout", s.logout)
+		}
+	}
+
 	return r
 }
 func (s *Server) healthCheck(c *gin.Context) {
