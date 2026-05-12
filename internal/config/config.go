@@ -2,6 +2,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -59,9 +60,21 @@ type UploadConfig struct {
 // LoadConfig .env dosyasını okur ve yapılandırma nesnesini oluşturur.
 func LoadConfig() (*Config, error) {
 	_ = godotenv.Load()
-	jwtExpiresIn, _ := time.ParseDuration(getEnv("JWT_EXPIRES_IN", "24h"))
-	refreshTokenExpires, _ := time.ParseDuration(getEnv("REFRESH_TOKEN_EXPIRES_IN", "72h"))
-	maxUploadSize, _ := strconv.ParseInt(getEnv("MAX_UPLOAD_SIZE", "10485760"), 10, 64)
+
+	jwtExpiresIn, err := time.ParseDuration(getEnv("JWT_EXPIRES_IN", "24h"))
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse JWT_EXPIRES_IN: %v", err)
+	}
+
+	refreshTokenExpires, err := time.ParseDuration(getEnv("REFRESH_TOKEN_EXPIRES_IN", "72h"))
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse REFRESH_TOKEN_EXPIRES_IN: %v", err)
+	}
+
+	maxUploadSize, err := strconv.ParseInt(getEnv("MAX_UPLOAD_SIZE", "10485760"), 10, 64)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse MAX_UPLOAD_SIZE: %v", err)
+	}
 
 	return &Config{
 		Server: ServerConfig{
