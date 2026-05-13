@@ -39,6 +39,16 @@ func (s *Server) SetupRoutes() *gin.Engine {
 			auth.POST("/refresh", s.refreshToken)
 			auth.POST("/logout", s.logout)
 		}
+
+		protected := api.Group("/")
+		protected.Use(s.authMiddleware())
+		{
+			users := protected.Group("/users")
+			{
+				users.GET("/profile", s.getProfile)
+				users.PUT("/profile", s.updateProfile)
+			}
+		}
 	}
 
 	return r

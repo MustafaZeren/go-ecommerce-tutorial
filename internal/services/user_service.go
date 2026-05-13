@@ -17,7 +17,7 @@ func NewUserService(db *gorm.DB) *UserService {
 }
 
 func (s *UserService) GetProfile(userID uint) (*dto.UserResponse, error) {
-	var user dto.UserResponse
+	var user models.User
 	if err := s.db.First(&user, userID).Error; err != nil {
 		return nil, err
 	}
@@ -30,6 +30,8 @@ func (s *UserService) GetProfile(userID uint) (*dto.UserResponse, error) {
 		Phone:     user.Phone,
 		Role:      string(user.Role),
 		IsActive:  user.IsActive,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
 	}, nil
 }
 
