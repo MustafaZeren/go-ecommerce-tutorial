@@ -1,44 +1,45 @@
-version: "2"
+  version: "2"
 
-run:
-  timeout: 5m
-  modules-download-mode: readonly
+  run:
+    timeout: 5m
+    modules-download-mode: readonly
 
-linters:
-  enable:
-    - errcheck
-    - govet
-    - ineffassign
-    - staticcheck
-    - unused
-    - misspell
-    - gocritic
-    - gosec
-    - bodyclose
-    - errname
-    - nilerr
-    - unconvert
-    - prealloc
-
-linters-settings:
-  errcheck:
-    check-type-assertions: true
-
-  govet:
+  linters:
     enable:
-      - shadow
+      - errcheck
+      - govet
+      - ineffassign
+      - staticcheck
+      - unused
+      - misspell
+      - gocritic
+      - gosec
+      - bodyclose
+      - errname
+      - nilerr
+      - unconvert
+      - prealloc
+      - revive
 
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
+    settings:
+      errcheck:
+        check-type-assertions: true
 
-  revive:
-    rules:
-      - name: exported
-      - name: package-comments
-      - name: var-naming
-      - name: unused-parameter
+      govet:
+        enable:
+          - shadow
+
+      gocritic:
+        enabled-tags:
+          - diagnostic
+          - experimental
+          - opinionated
+          - performance
+          - style
+
+      revive:
+        rules:
+          - name: exported
+          - name: package-comments
+          - name: var-naming
+          - name: unused-parameter
