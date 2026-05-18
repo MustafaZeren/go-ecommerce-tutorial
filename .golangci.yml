@@ -39,7 +39,5 @@
 
       revive:
         rules:
-          - name: exported
-          - name: package-comments
           - name: var-naming
           - name: unused-parameter

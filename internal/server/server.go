@@ -33,22 +33,21 @@ func (s *Server) SetupRoutes() *gin.Engine {
 	api := r.Group("/api/v1")
 	{
 		auth := api.Group("/auth")
-		{
-			auth.POST("/register", s.register)
-			auth.POST("/login", s.login)
-			auth.POST("/refresh", s.refreshToken)
-			auth.POST("/logout", s.logout)
-		}
+		auth.POST("/register", s.register)
+		auth.POST("/login", s.login)
+		auth.POST("/refresh", s.refreshToken)
+		auth.POST("/logout", s.logout)
 
 		protected := api.Group("/")
 		protected.Use(s.authMiddleware())
 		{
 			users := protected.Group("/users")
-			{
-				users.GET("/profile", s.getProfile)
-				users.PUT("/profile", s.updateProfile)
-			}
+			users.GET("/profile", s.getProfile)
+			users.PUT("/profile", s.updateProfile)
 		}
+		admin := api.Group("/admin")
+		// It is written for using adminMiddleware function
+		admin.Use(s.adminMiddleware())
 	}
 
 	return r

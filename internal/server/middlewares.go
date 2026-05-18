@@ -40,6 +40,7 @@ func (s *Server) authMiddleware() gin.HandlerFunc {
 	}
 }
 
+// It Will be used
 func (s *Server) adminMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		role, exists := c.Get("user_role")

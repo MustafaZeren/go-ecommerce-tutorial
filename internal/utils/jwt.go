@@ -49,7 +49,7 @@ func GenerateTokenPair(cfg *config.JWTConfig, userID uint, email, role string) (
 }
 
 func ValidateToken(tokenString string, cfg *config.JWTConfig) (claims *Claims, err error) {
-	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(_ *jwt.Token) (interface{}, error) {
 		return []byte(cfg.Secret), nil
 	})
 	if err != nil {
