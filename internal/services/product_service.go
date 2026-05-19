@@ -134,7 +134,6 @@ func (s *ProductService) GetProduct(id uint) (*dto.ProductResponse, error) {
 	}
 	return s.convertToProductResponse(&product), nil
 }
-
 func (s *ProductService) UpdateProduct(id uint, req *dto.UpdateProductRequest) (*dto.ProductResponse, error) {
 	var product models.Product
 	if err := s.db.First(&product, id).Error; err != nil {
@@ -155,6 +154,9 @@ func (s *ProductService) UpdateProduct(id uint, req *dto.UpdateProductRequest) (
 	}
 
 	return s.GetProduct(id)
+}
+func (s *ProductService) DeleteProduct(id uint64) error {
+	return s.db.Delete(&models.Product{}, id).Error
 }
 func (s *ProductService) convertToProductResponse(product *models.Product) *dto.ProductResponse {
 	images := make([]dto.ProductImageResponse, len(product.Images))
