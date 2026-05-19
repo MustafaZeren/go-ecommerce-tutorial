@@ -40,7 +40,8 @@ func (s *Server) updateCategory(c *gin.Context) {
 		return
 	}
 	var req dto.UpdateCategoryRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
+	err = c.ShouldBindJSON(&req)
+	if err != nil {
 		utils.BadRequestResponse(c, "Invalid request data", err)
 		return
 	}
@@ -115,7 +116,8 @@ func (s *Server) updateProduct(c *gin.Context) {
 		return
 	}
 	var req dto.UpdateProductRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
+	err = c.ShouldBindJSON(&req)
+	if err != nil {
 		utils.BadRequestResponse(c, "Invalid request data", err)
 		return
 	}

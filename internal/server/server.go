@@ -42,9 +42,32 @@ func (s *Server) SetupRoutes() *gin.Engine {
 		protected.Use(s.authMiddleware())
 		{
 			users := protected.Group("/users")
-			users.GET("/profile", s.getProfile)
-			users.PUT("/profile", s.updateProfile)
+			{
+				userRoute := users
+				userRoute.GET("/profile", s.getProfile)
+				userRoute.PUT("/profile", s.updateProfile)
+			}
+			categories := protected.Group("/categories")
+			{
+				categoryRoute := categories
+				categoryRoute.POST("/", s.adminMiddleware(), s.createCategory)
+				categoryRoute.PUT("/:id", s.adminMiddleware(), s.updateCategory)
+				categoryRoute.DELETE("/:id", s.adminMiddleware(), s.deleteCategory)
+			}
+			products := protected.Group("/products")
+			{
+				productRoute := products
+				productRoute.POST("/", s.adminMiddleware(), s.createProduct)
+				productRoute.PUT("/:id", s.adminMiddleware(), s.updateProduct)
+				productRoute.DELETE("/:id", s.adminMiddleware(), s.deleteProduct)
+			}
 		}
+
+		// public routes
+		api.GET("/categories", s.getCategories)
+		api.GET("/products", s.getProducts)
+		api.GET("/products/:id", s.getProduct)
+
 		admin := api.Group("/admin")
 		// It is written for using adminMiddleware function
 		admin.Use(s.adminMiddleware())
