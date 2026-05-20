@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mustafazeren/go-ecommerce-course/db/seeders"
 	"github.com/mustafazeren/go-ecommerce-course/internal/config"
 	"github.com/mustafazeren/go-ecommerce-course/internal/database"
 	"github.com/mustafazeren/go-ecommerce-course/internal/logger"
@@ -37,6 +38,12 @@ func main() {
 	mainDb, err := db.DB()
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to get DB connection")
+		return
+	}
+
+	// seed data for admin user
+	if err := seeders.Run(db); err != nil {
+		log.Error().Err(err).Msg("Failed to seed database")
 		return
 	}
 

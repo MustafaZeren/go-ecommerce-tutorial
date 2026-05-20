@@ -1,6 +1,8 @@
 package services
 
 import (
+	"time"
+
 	"github.com/mustafazeren/go-ecommerce-course/internal/dto"
 	"github.com/mustafazeren/go-ecommerce-course/internal/models"
 	"github.com/mustafazeren/go-ecommerce-course/internal/utils"
@@ -31,6 +33,8 @@ func (s *ProductService) CreateCategory(req *dto.CreateCategoryRequest) (*dto.Ca
 		Name:        category.Name,
 		Description: category.Description,
 		IsActive:    category.IsActive,
+		CreatedAt:   category.CreatedAt,
+		UpdatedAt:   category.UpdatedAt,
 	}, nil
 }
 func (s *ProductService) GetCategories() ([]*dto.CategoryResponse, error) {
@@ -46,6 +50,8 @@ func (s *ProductService) GetCategories() ([]*dto.CategoryResponse, error) {
 			Name:        category.Name,
 			Description: category.Description,
 			IsActive:    category.IsActive,
+			CreatedAt:   category.CreatedAt,
+			UpdatedAt:   category.UpdatedAt,
 		}
 	}
 
@@ -69,6 +75,8 @@ func (s *ProductService) UpdateCategory(id uint64, req *dto.UpdateCategoryReques
 		Name:        category.Name,
 		Description: category.Description,
 		IsActive:    category.IsActive,
+		CreatedAt:   category.CreatedAt,
+		UpdatedAt:   category.UpdatedAt,
 	}, nil
 }
 func (s *ProductService) DeleteCategory(id uint64) error {
@@ -82,6 +90,8 @@ func (s *ProductService) CreateProduct(req *dto.CreateProductRequest) (*dto.Prod
 		Price:       req.Price,
 		Stock:       req.Stock,
 		SKU:         req.SKU,
+		CreatedAt:   time.Now(),
+		UpdatedAt:   time.Now(),
 	}
 	if err := s.db.Create(&product).Error; err != nil {
 		return nil, err
@@ -166,6 +176,7 @@ func (s *ProductService) convertToProductResponse(product *models.Product) *dto.
 			URL:       product.Images[i].URL,
 			AltText:   product.Images[i].AltText,
 			IsPrimary: product.Images[i].IsPrimary,
+			CreatedAt: product.Images[i].CreatedAt,
 		}
 	}
 
@@ -179,11 +190,15 @@ func (s *ProductService) convertToProductResponse(product *models.Product) *dto.
 		Stock:       product.Stock,
 		SKU:         product.SKU,
 		CategoryID:  product.CategoryID,
+		CreatedAt:   product.CreatedAt,
+		UpdatedAt:   product.UpdatedAt,
 		Category: dto.CategoryResponse{
 			ID:          product.Category.ID,
 			Name:        product.Category.Name,
 			Description: product.Category.Description,
 			IsActive:    product.Category.IsActive,
+			CreatedAt:   product.Category.CreatedAt,
+			UpdatedAt:   product.Category.UpdatedAt,
 		},
 	}
 }
