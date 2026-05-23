@@ -5,21 +5,35 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mustafazeren/go-ecommerce-course/internal/config"
+	"github.com/mustafazeren/go-ecommerce-course/internal/services"
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 )
 
 type Server struct {
-	config *config.Config
-	db     *gorm.DB
-	logger *zerolog.Logger
+	config         *config.Config
+	db             *gorm.DB
+	logger         *zerolog.Logger
+	authService    *services.AuthService
+	productService *services.ProductService
+	userService    *services.UserService
 }
 
-func New(c *config.Config, db *gorm.DB, logger *zerolog.Logger) *Server {
+func New(
+	c *config.Config,
+	db *gorm.DB,
+	logger *zerolog.Logger,
+	authService *services.AuthService,
+	productService *services.ProductService,
+	userService *services.UserService,
+) *Server {
 	return &Server{
-		config: c,
-		db:     db,
-		logger: logger,
+		config:         c,
+		db:             db,
+		logger:         logger,
+		authService:    authService,
+		productService: productService,
+		userService:    userService,
 	}
 }
 func (s *Server) SetupRoutes() *gin.Engine {
